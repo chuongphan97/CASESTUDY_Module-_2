@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class UserService {
-    UserDB userDB;
+    public UserDB userDB;
     public UserService(){
         userDB = new UserDB();
     }
@@ -67,7 +67,6 @@ public class UserService {
     }
 
     public void printHistory(String username){
-        System.out.println("History: ");
         userDB.printHistory(username);
         System.out.println("________________________________");
     }

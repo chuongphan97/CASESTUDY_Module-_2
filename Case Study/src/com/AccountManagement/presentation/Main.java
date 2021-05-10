@@ -52,96 +52,132 @@ public class Main {
         String username = new Scanner(System.in).nextLine();
         System.out.println("Enter password: ");
         String password = new Scanner(System.in).nextLine();
-        if (!userService.findByUsername(username).getPassword().equals(password)){
+        if (!userService.userDB.stringUserHashMap.containsKey(username)) {
+            System.out.println("This username don't exist, please check your username again!");
+        } else if (!userService.findByUsername(username).getPassword().equals(password)){
             System.out.println("Wrong password, please check your password again!");
         } else {
-            System.out.println("Welcome " + userService.findByUsername(username).getUsername()+"!");
-            System.out.println("__________________________________");
-            String choice = "";
-            while (!choice.equals("8")){
-                System.out.println("\t 1. Change password.");
-                System.out.println("\t 2. Edit information.");
-                System.out.println("\t 3. Display product list.");
-                System.out.println("\t 4. Add product.");
-                System.out.println("\t 5. Set product amount.");
-                System.out.println("\t 6. Buy item.");
-                System.out.println("\t 7. Display history.");
-                System.out.println("\t 8. Log out.");
-                System.out.println("Enter your choice: ");
-                choice = new Scanner(System.in).nextLine();
-                switch (choice) {
-                    case "1" -> {
-                        System.out.println("Enter new password: ");
-                        String newPassword = new Scanner(System.in).nextLine();
-                        while (newPassword.equals(password)) {
-                            System.out.println("Please enter new password!!");
-                            newPassword = new Scanner(System.in).nextLine();
+            if (username.equals("admin")){
+                System.out.println("------------ADMIN SYSTEM------------");
+                String choice = "";
+                while (!choice.equals("5")){
+                    System.out.println("\t 1. Change password.");
+                    System.out.println("\t 2. Display product list.");
+                    System.out.println("\t 3. Add product.");
+                    System.out.println("\t 4. Set product amount.");
+                    System.out.println("\t 5. Log out.");
+                    System.out.println("Enter your choice: ");
+                    choice = new Scanner(System.in).nextLine();
+                    switch (choice){
+                        case "1" -> {
+                            System.out.println("Enter new password: ");
+                            String newPassword = new Scanner(System.in).nextLine();
+                            while (newPassword.equals(password)) {
+                                System.out.println("Please enter new password!!");
+                                newPassword = new Scanner(System.in).nextLine();
+                            }
+                            userService.setPassword(username, newPassword);
                         }
-                        userService.setPassword(username, newPassword);
+                        case "2" -> {
+                            productService.printList();
+                        }
+                        case "3" -> {
+                            System.out.println("Enter new product name: ");
+                            String newProductName = new Scanner(System.in).nextLine();
+                            System.out.println("Enter new product amount: ");
+                            int newAmount = new Scanner(System.in).nextInt();
+                            productService.add(new Product(0, newProductName, newAmount));
+                        }
+                        case "4" -> {
+                            System.out.println("Enter id: ");
+                            int id = new Scanner(System.in).nextInt();
+                            System.out.println("Enter new amount");
+                            int newAmount2 = new Scanner(System.in).nextInt();
+                            productService.setAmount(id, newAmount2);
+                        }
                     }
-                    case "2" -> {
-                        String choice2 = "";
-                        while (!choice2.equals("5")) {
-                            System.out.println("Edit system: ");
-                            System.out.println("\t 1. Edit birthday.");
-                            System.out.println("\t 2. Edit gender.");
-                            System.out.println("\t 3. Edit email.");
-                            System.out.println("\t 4. Edit address.");
-                            System.out.println("\t 5. Exit!");
-                            System.out.println("Enter your choice: ");
-                            choice2 = new Scanner(System.in).nextLine();
-                            switch (choice2) {
-                                case "1" -> {
-                                    System.out.println("Enter new birthday: ");
-                                    String newDob = new Scanner(System.in).nextLine();
-                                    userService.setDob(username, newDob);
-                                }
-                                case "2" -> {
-                                    System.out.println("Enter new gender: ");
-                                    String newGender = new Scanner(System.in).nextLine();
-                                    userService.setGender(username, newGender);
-                                }
-                                case "3" -> {
-                                    System.out.println("Enter new email: ");
-                                    String newEmail = new Scanner(System.in).nextLine();
-                                    userService.setEmail(username, newEmail);
-                                }
-                                case "4" -> {
-                                    System.out.println("Enter new address:");
-                                    String newAddress = new Scanner(System.in).nextLine();
-                                    userService.setAddress(username, newAddress);
+                }
+            } else {
+                System.out.println("Welcome " + userService.findByUsername(username).getUsername()+"!");
+                System.out.println("__________________________________");
+                String choice = "";
+                while (!choice.equals("6")){
+                    System.out.println("\t 1. Change password.");
+                    System.out.println("\t 2. Edit information.");
+                    System.out.println("\t 3. Display product list.");
+                    System.out.println("\t 4. Buy item.");
+                    System.out.println("\t 5. Display history.");
+                    System.out.println("\t 6. Log out.");
+                    System.out.println("Enter your choice: ");
+                    choice = new Scanner(System.in).nextLine();
+                    switch (choice) {
+                        case "1" -> {
+                            System.out.println("Enter new password: ");
+                            String newPassword = new Scanner(System.in).nextLine();
+                            while (newPassword.equals(password)) {
+                                System.out.println("Please enter new password!!");
+                                newPassword = new Scanner(System.in).nextLine();
+                            }
+                            userService.setPassword(username, newPassword);
+                        }
+                        case "2" -> {
+                            String choice2 = "";
+                            while (!choice2.equals("5")) {
+                                System.out.println("Edit system: ");
+                                System.out.println("\t 1. Edit birthday.");
+                                System.out.println("\t 2. Edit gender.");
+                                System.out.println("\t 3. Edit email.");
+                                System.out.println("\t 4. Edit address.");
+                                System.out.println("\t 5. Exit!");
+                                System.out.println("Enter your choice: ");
+                                choice2 = new Scanner(System.in).nextLine();
+                                switch (choice2) {
+                                    case "1" -> {
+                                        System.out.println("Enter new birthday: ");
+                                        String newDob = new Scanner(System.in).nextLine();
+                                        userService.setDob(username, newDob);
+                                    }
+                                    case "2" -> {
+                                        System.out.println("Enter new gender: ");
+                                        String newGender = new Scanner(System.in).nextLine();
+                                        userService.setGender(username, newGender);
+                                    }
+                                    case "3" -> {
+                                        System.out.println("Enter new email: ");
+                                        String newEmail = new Scanner(System.in).nextLine();
+                                        userService.setEmail(username, newEmail);
+                                    }
+                                    case "4" -> {
+                                        System.out.println("Enter new address:");
+                                        String newAddress = new Scanner(System.in).nextLine();
+                                        userService.setAddress(username, newAddress);
+                                    }
                                 }
                             }
                         }
-                    }
-                    case "3" -> productService.printList();
-                    case "4" -> {
-                        System.out.println("Enter new product name: ");
-                        String newProductName = new Scanner(System.in).nextLine();
-                        System.out.println("Enter new product amount: ");
-                        int newAmount = new Scanner(System.in).nextInt();
-                        productService.add(new Product(0, newProductName, newAmount));
-                    }
-                    case "5" -> {
-                        System.out.println("Enter id: ");
-                        int id = new Scanner(System.in).nextInt();
-                        System.out.println("Enter new amount");
-                        int newAmount2 = new Scanner(System.in).nextInt();
-                        productService.setAmount(id, newAmount2);
-                    }
-                    case "6" -> {
-                        System.out.println("Enter id: ");
-                        int buyId = new Scanner(System.in).nextInt();
-                        System.out.println("Enter amount: ");
-                        int buyAmount = new Scanner(System.in).nextInt();
-                        userService.addHistory(username, new Product(buyId, productService.findById(buyId).getName(), buyAmount));
-                        productService.setAmount(buyId, productService.findById(buyId).getAmount() - buyAmount);
-                    }
-                    case "7" -> {
-                        userService.printHistory(username);
+                        case "3" -> productService.printList();
+
+                        case "4" -> {
+                            System.out.println("Enter id: ");
+                            int buyId = new Scanner(System.in).nextInt();
+                            System.out.println("Enter amount: ");
+                            int buyAmount = new Scanner(System.in).nextInt();
+                            if  (buyAmount > productService.findById(buyId).getAmount()) {
+                                System.out.println("Out of stock!");
+                            } else {
+                                userService.addHistory(username, new Product(buyId, productService.findById(buyId).getName(), buyAmount));
+                                productService.setAmount(buyId, productService.findById(buyId).getAmount() - buyAmount);
+                                System.out.println("Transaction completed.");
+                            }
+                        }
+                        case "5" -> {
+                            userService.printHistory(username);
+                        }
                     }
                 }
             }
+
+
 
         }
     }

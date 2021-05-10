@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class UserDB {
     private static final String PATH = "user.csv";
-    HashMap<String, User> stringUserHashMap;
+    public HashMap<String, User> stringUserHashMap;
     public UserDB(){
         stringUserHashMap = new HashMap<>();
     }
@@ -75,9 +75,14 @@ public class UserDB {
 
     public void printHistory(String username){
         ArrayList<Product> products = findByUsername(username).getHistory();
-        for (Product product : products) {
-            System.out.println("Name: " + product.getName() + ", amount: " + product.getAmount() + ".");
+        if (products.size() == 0){
+            System.out.println("History empty!!");
+        } else {
+            for (int i = products.size()-1; i >= 0 ; i--) {
+                System.out.println("Product: " + products.get(i).getName() + ", amount: " + products.get(i).getAmount());
+            }
         }
+
     }
 
 }
