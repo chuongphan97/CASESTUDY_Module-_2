@@ -78,8 +78,9 @@ public class UserDB {
         if (products.size() == 0){
             System.out.println("History empty!!");
         } else {
+            System.out.printf("|| %20s || %5s\n", "Product name", "Amount");
             for (int i = products.size()-1; i >= 0 ; i--) {
-                System.out.println("Product: " + products.get(i).getName() + ", amount: " + products.get(i).getAmount());
+                System.out.printf("|| %20s || %5d\n", products.get(i).getName(), products.get(i).getAmount());
             }
         }
 

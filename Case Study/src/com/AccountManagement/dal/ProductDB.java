@@ -57,10 +57,16 @@ public class ProductDB {
     }
 
     public void printList(){
-        for (Product product : products) {
-            System.out.println(product.toString());
+//        for (Product product : products) {
+//            System.out.println(product.toString());
+//        }
+        System.out.printf("|| %3s || %20s || %5s\n","Id","Product name", "Amount");
+        for (int i = 0; i < products.size(); i++) {
+            System.out.printf("|| %3d || %20s || %5d\n",products.get(i).getId(),products.get(i).getName(),products.get(i).getAmount());
         }
     }
+
+
 
 
 }
